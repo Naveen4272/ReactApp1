@@ -3,13 +3,13 @@ import { useEffect, useState } from "react"
 import resList from "../utils/mockdata"
 import RestaurantCard from "./RestauarantCard"
 import Shimmer from "./Shimmer"
-
+import { Link } from "react-router-dom"
 const Body = () =>{
  
  
   const [listOfRestaurants,setListOfRestaurants]=useState([])
   const [filterRes,setFilterRes]=useState([])
-  const[searchText,setSearchText]=useState("")
+  const[searchText,setSearchText]=useState('')
   useEffect(()=>{
    fetchData()
     
@@ -21,8 +21,8 @@ const Body = () =>{
     const json =await data.json();
 
     setListOfRestaurants(json?.data.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
-
- setFilterRes(json?.data.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
+setFilterRes(json?.data.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants)
+ 
     
   }
   
@@ -30,16 +30,16 @@ const Body = () =>{
   return listOfRestaurants.length===0 ?<Shimmer/>:  (
     <div className="body">
       <div className="filter">
-        <div className="search">
-          <input type="text" className="search-box" value={searchText} onChange={(e)=>{
-            setSearchText(e.target.value)
-          }}/>
-          <button className="input-search" onClick={()=>{
-            const filterRes=listOfRestaurants.filter((res)=>
-            res.info.name.toLowerCase().includes(searchText))
-           setFilterRes(filterRes)
-          }}>search</button>
-        </div>
+       <div className="search-box">
+        <input type="text" className="search-text" value={searchText} onChange={(e)=>{
+          setSearchText(e.target.value)
+        }}/>
+<button className="search-btn" onClick={()=>{
+  const filterRes=listOfRestaurants.filter((res)=>
+  res.info.name.toLowerCase().includes(searchText))
+  setFilterRes(filterRes)
+}}>search</button>
+       </div>
         <button className="filter-btn" onClick={()=>{
         const filteredRestaurants=listOfRestaurants.filter((res)=>res.info.avgRating>4.4)
         setFilterRes(filteredRestaurants)
@@ -49,7 +49,7 @@ const Body = () =>{
       <div className="res-container">
         {
           filterRes.map((restaurant)=>(
-            <RestaurantCard key={restaurant.info.id} resData={restaurant}/>
+          <Link key={restaurant.info.id} to={"/restaurants/"+restaurant.info.id}> <RestaurantCard  resData={restaurant}/> </Link>
             )
         )
         }

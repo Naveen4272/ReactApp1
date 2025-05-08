@@ -32,6 +32,7 @@
 .res-card:hover{
   border: 1px solid black;
   cursor: pointer;
+
 }
 .search{
   padding: 10px;
@@ -61,4 +62,7 @@
 }
 .filter{
   display: flex ;
+}
+.search-text{
+  margin: 10px;
 }
